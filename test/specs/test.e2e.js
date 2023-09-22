@@ -4,7 +4,7 @@ import assert from "assert/strict"
 
 describe('Github', () => {
 
-    xit("should Sign Up correctly", async() => {
+    it("should Sign Up correctly", async() => {
 
         const URL = '/signup'
 
@@ -39,10 +39,10 @@ describe('Github', () => {
        
     }) 
     
-    xit("should contain a link to the correct Enterprise start page", async() => {
+    it("should contain a link to the correct Enterprise start page", async() => {
         await browser.url("https://github.com/")  
-
-        const header1 = await $('//h2[contains(., "The place for anyone from anywhere to build anything")]')
+        
+        const header1 = await $('h2*=The place for anyone from anywhere to build anything')
         await expect(header1).toBeDisplayed()
             
         await header1.scrollIntoView()        
@@ -55,8 +55,8 @@ describe('Github', () => {
         await enterpriseLink.click()
 
         await expect(browser).toHaveUrlContaining(URL)
-
-        const trialPlanHeader = await $('//h1[contains(., "Pick your trial plan")]')
+        
+        const trialPlanHeader = await $('h1*=Pick your trial plan')
         await expect(trialPlanHeader).toBeDisplayed()
 
         const enterpriseCloudLink = await $('a[href^="/account/enterprises/new"]')
@@ -66,7 +66,7 @@ describe('Github', () => {
         
     })
 
-    xit("Should provide the opportunity to subscribe", async() => {
+    it("Should provide the opportunity to subscribe", async() => {
         
         await browser.url("https://github.com/");
         
@@ -80,7 +80,7 @@ describe('Github', () => {
 
         await expect(browser).toHaveUrlContaining(URL)
 
-        const letsSubscribeHeader = await $('//h1[@id="hero-section-brand-heading" and contains(., "Subscribe to our developer newsletter")]')
+        const letsSubscribeHeader = await $('h1#hero-section-brand-heading*=Subscribe to our developer newsletter')
         await expect(letsSubscribeHeader).toExist()
 
         const emailInputSelector = 'input[name="emailAddress"][type="email"][required]'
@@ -98,12 +98,12 @@ describe('Github', () => {
         const subscribeContinueButton = await $('button[type="submit"]');
         subscribeContinueButton.click()
         
-        const thxForSubscribingHeader = await $('//h1[@id="hero-section-brand-heading" and contains(., "Thanks for subscribing!")]')
+        const thxForSubscribingHeader = await $('h1#hero-section-brand-heading*=Thanks for subscribing!')
         await thxForSubscribingHeader.waitForDisplayed()        
 
     })  
 
-    xit("search on GitHub", async() => {
+    it("search on GitHub", async() => {
         const SEARCH_QUERY = "act"
 
         await browser.url("https://github.com/");  
@@ -134,10 +134,8 @@ describe('Github', () => {
                 && (await searchTitle.$(`a[href*="${SEARCH_QUERY}" i]`).isExisting())
 
             const searchBody = await searchResult.$('div > .search-match')    
-            const isSearchQueryInBody = (await searchBody.getText()).toLocaleLowerCase().indexOf(SEARCH_QUERY) !== -1
-            
-            console.log("qqqq", await searchTitle.getText(), isSearchQueryInTitle) 
-            console.log("bbbb", await searchBody.getText(), isSearchQueryInBody) 
+            const isSearchQueryInBody = (await searchBody.getText()).toLocaleLowerCase().indexOf(SEARCH_QUERY) !== -1            
+          
             assert(isSearchQueryInTitle || isSearchQueryInBody, "Query string should be in search title url/text or in search body.")   
             
             await expect(searchResult).toBeDisplayed()
