@@ -1,0 +1,4 @@
+clear && npm run wdio
+git add -A && git commit -m "Minor changes" && git push
+
+git push --set-upstream https://github.com/antonkrav/wdio-tests.git master

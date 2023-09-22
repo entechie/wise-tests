@@ -1,0 +1,4 @@
+review all maximizeWindow to remove setWindowSize
+in hometasks replace xit xit to it
+exclude test.e2e.js, check-list-before-publication.txt, my instructions.txt
+remove all console.log
